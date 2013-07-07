@@ -11,8 +11,9 @@ var ctx = settings.ctx;
 
 // Make button
 mainFont = _.make( Game.Font ).init( 32, "Consolas" );
-var newGameButton = _.make( Game.Button ).init( "New Game", mainFont, 300, 300, 20, 20, "#2DB42A", "#222" );
+var newGameButton = _.make( Game.Button ).init( "New Game", mainFont, 20, 15, 20, 20, "#2DB42A", "#222" );
 newGameButton.click = function() {
+	Game.entities.splice( Game.entities.indexOf(newGameButton), 1 );
 	Game.StateManager.change( "game" );
 };
 Game.entities.push( newGameButton );
@@ -21,6 +22,7 @@ Game.entities.push( newGameButton );
 var startedLoading = false;
 Game.StateManager.add( "loading", {
 	update: function( delta ) {
+		/*
 		if ( !startedLoading ) { // Don't start multiple loading processes
 			startedLoading = true;
 			Game.AssetManager.load( function() {
@@ -30,6 +32,8 @@ Game.StateManager.add( "loading", {
 				}, 500 );
 			}, function() {} );
 		}
+		*/
+		Game.StateManager.change( "main_menu" );
 		
 		return false;
 	},
@@ -37,7 +41,8 @@ Game.StateManager.add( "loading", {
 		// Draw background
 		ctx.fillStyle = "#000";
 		ctx.fillRect( 0, 0, canvas.width, canvas.height );
-
+		
+		/*
 		// Draw loading bar
 		ctx.lineWidth = "5";
 		ctx.strokeStyle = "#2DB42A";
@@ -45,6 +50,7 @@ Game.StateManager.add( "loading", {
 		ctx.strokeRect( canvas.width / 2 - 300 / 2 - 10, canvas.height / 2 - 50 / 2 - 10, 300 + 10, 50 + 10 );
 		ctx.stroke();
 		ctx.fillRect( canvas.width / 2 - 300 / 2 - 10 / 2, canvas.height / 2 - 50 / 2 - 10 / 2, 300 * Game.AssetManager.loadedCount / Game.AssetManager.assetCount, 50 );
+		*/
 		
 		return false;
 	}
@@ -71,6 +77,8 @@ Game.StateManager.add( "game", {
 		// Draw background
 		ctx.fillStyle = "#000";
 		ctx.fillRect( 0, 0, canvas.width, canvas.height );
+		
+		return true;
 	}
 } );
 
